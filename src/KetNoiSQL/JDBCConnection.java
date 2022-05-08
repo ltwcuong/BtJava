@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class JDBCConnection {
      public static Connection getJDBCConnection() {
         
-        final String url04 = "jdbc:sqlserver://localhost:1433;databasename=SanPham;";
+        final String url04 = "jdbc:jtds:sqlserver://DESKTOP-75QU9HE:1433/Sieuthimini";
         final String user04 = "sa";
         final String password04 = "1";
         try {

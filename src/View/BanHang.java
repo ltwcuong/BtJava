@@ -4,6 +4,7 @@
  */
 package btljava;
 
+import KetNoiSQL.JDBCConnection;
 import static KetNoiSQL.JDBCConnection.getJDBCConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,8 +28,41 @@ public class BanHang extends javax.swing.JFrame {
 
     public BanHang() {
         initComponents();
+        showDuLieu();
     }
     @SuppressWarnings("unchecked")
+     public void showDuLieu(){
+        try{
+        Connection connection04 = JDBCConnection.getJDBCConnection();
+        DefaultTableModel model04 = new DefaultTableModel();
+        int number04;
+        Vector row04, column04;
+        column04 = new Vector();
+        Statement ps04 = connection04.createStatement();
+        ResultSet rs04 = ps04.executeQuery("SELECT * FROM DanhSachSP");
+        ResultSetMetaData  metaData04 = rs04.getMetaData();
+        number04 = metaData04.getColumnCount();
+        for(int i04= 1;i04<=number04;i04++)
+        {
+            column04.add(metaData04.getColumnName(i04));
+        }
+        model04.setColumnIdentifiers(column04);
+        while (rs04.next()) {
+       row04 = new Vector();
+   
+            for(int i04=1 ; i04<= number04;i04++){
+                    row04.addElement(rs04.getString(i04));
+            }
+             model04.addRow(row04);
+             tblSanpham.setModel(model04);
+        }
+        
+        }
+        catch(SQLException ex){
+            System.out.println(ex.toString());
+        }
+        
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -496,10 +530,13 @@ public class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btndx5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+          // TODO add your handling code here:
         try {
             st04 = con04.createStatement();
-        } catch (Exception e) {
-            e.printStackTrace();
+            rs04 = st04.executeQuery("Select *from SanPham where DanhMuc=N'" + DMSP.getSelectedItem().toString() + "'");
+            tblSanpham.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
