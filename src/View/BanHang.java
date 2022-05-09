@@ -2,66 +2,69 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package btljava;
+package View;
+
 
 import KetNoiSQL.JDBCConnection;
 import static KetNoiSQL.JDBCConnection.getJDBCConnection;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.Vector;
-import net.proteanit.sql.DbUtils;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 
 /**
  *
  * @author Thanh Cuong
  */
-public class BanHang extends javax.swing.JFrame {
-
+public final class BanHang extends javax.swing.JFrame {
+    DefaultTableModel model04 = new DefaultTableModel();
     Connection con04 = getJDBCConnection();
     Statement st04 = null;
     ResultSet rs04 = null;
-   
-   
 
     public BanHang() {
         initComponents();
         showDuLieu();
+        
     }
     @SuppressWarnings("unchecked")
+ 
      public void showDuLieu(){
-        try{
-        Connection connection04 = JDBCConnection.getJDBCConnection();
-        DefaultTableModel model04 = new DefaultTableModel();
-        int number04;
-        Vector row04, column04;
-        column04 = new Vector();
-        Statement ps04 = connection04.createStatement();
-        ResultSet rs04 = ps04.executeQuery("SELECT * FROM DanhSachSP");
-        ResultSetMetaData  metaData04 = rs04.getMetaData();
-        number04 = metaData04.getColumnCount();
-        for(int i04= 1;i04<=number04;i04++)
-        {
-            column04.add(metaData04.getColumnName(i04));
-        }
-        model04.setColumnIdentifiers(column04);
-        while (rs04.next()) {
-       row04 = new Vector();
-   
-            for(int i04=1 ; i04<= number04;i04++){
-                    row04.addElement(rs04.getString(i04));
+        try {
+             con04 = JDBCConnection.getJDBCConnection();
+            int number ;
+            Vector row04;
+            String sql = "select * from DanhSachSP";
+            st04 =con04.createStatement();
+            rs04=st04.executeQuery(sql);
+            ResultSetMetaData metaData = rs04.getMetaData();
+            number = metaData.getColumnCount();
+            model04.setRowCount(0);
+ 
+            while(rs04.next()){
+                row04  = new Vector();
+                for (int i = 1; i <= number; i++) {
+                    row04.addElement(rs04.getString(i));
+                    
+                }
+                model04.addRow(row04);
+                tblSanpham.setModel(model04);
             }
-             model04.addRow(row04);
-             tblSanpham.setModel(model04);
+            st04.close();
+            rs04.close();
+            con04.close();
+            
+        } catch (Exception ex) {
+            
         }
-        
-        }
-        catch(SQLException ex){
-            System.out.println(ex.toString());
-        }
-        
+       
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -96,8 +99,8 @@ public class BanHang extends javax.swing.JFrame {
         txtGC04 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<String>();
+        btnLoc04 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanpham = new javax.swing.JTable();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -118,8 +121,15 @@ public class BanHang extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         btndx5 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
+        btnThem04 = new javax.swing.JButton();
+        btnXoa04 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel9.setBackground(new java.awt.Color(255, 204, 153));
 
@@ -253,22 +263,22 @@ public class BanHang extends javax.swing.JFrame {
 
         jLabel10.setText("Lọc theo");
 
-        jButton3.setText("Lọc");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnLoc04.setText("Lọc");
+        btnLoc04.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnLoc04ActionPerformed(evt);
             }
         });
 
         tblSanpham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Giá gốc", "Giá bán", "Ghi chú"
             }
         ));
         tblSanpham.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -321,6 +331,20 @@ public class BanHang extends javax.swing.JFrame {
         jButton34.setBackground(new java.awt.Color(255, 204, 0));
         jButton34.setText("Quản lý bán hàng");
 
+        btnThem04.setText("Thêm");
+        btnThem04.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThem04ActionPerformed(evt);
+            }
+        });
+
+        btnXoa04.setText("Xóa");
+        btnXoa04.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoa04ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -362,10 +386,17 @@ public class BanHang extends javax.swing.JFrame {
                                     .addComponent(txtDVT04)
                                     .addComponent(txtGG04)
                                     .addComponent(txtGB04, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtGC04, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtGC04, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(btnThem04)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(btnXoa04)))
                                 .addGap(32, 32, 32))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,7 +409,7 @@ public class BanHang extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3))
+                                .addComponent(btnLoc04))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,19 +476,26 @@ public class BanHang extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtTensp04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtGG04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6)
-                    .addComponent(txtSL04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtGB04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(txtSL04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtGB04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnThem04)
+                            .addComponent(btnXoa04))))
                 .addGap(12, 12, 12)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(btnLoc04))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -504,7 +542,15 @@ public class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void tblSanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanphamMouseClicked
-        // TODO add your handling code here:
+       DefaultTableModel model = (DefaultTableModel) tblSanpham.getModel();
+        int Myindex = tblSanpham.getSelectedRow();
+        txtMasp.setText(model.getValueAt(Myindex, 0).toString());
+        txtTensp04.setText(model.getValueAt(Myindex, 1).toString());
+        txtSL04.setText(model.getValueAt(Myindex, 2).toString());
+        txtDVT04.setText(model.getValueAt(Myindex, 3).toString());
+        txtGG04.setText(model.getValueAt(Myindex, 4).toString());
+        txtGB04.setText(model.getValueAt(Myindex, 5).toString());
+        txtGC04.setText(model.getValueAt(Myindex, 6).toString());
     }//GEN-LAST:event_tblSanphamMouseClicked
 
     private void BtnHuyHD5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHuyHD5ActionPerformed
@@ -529,16 +575,54 @@ public class BanHang extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btndx5ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-          // TODO add your handling code here:
-        try {
-            st04 = con04.createStatement();
-            rs04 = st04.executeQuery("Select *from SanPham where DanhMuc=N'" + DMSP.getSelectedItem().toString() + "'");
-            tblSanpham.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    private void btnLoc04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoc04ActionPerformed
+         
+    }//GEN-LAST:event_btnLoc04ActionPerformed
+
+    private void btnThem04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem04ActionPerformed
+        if(txtMasp.getText().equals("") || txtTensp04.getText().equals("")|| txtSL04.getText().equals("") || txtGG04.getText().equals("")||txtGB04.getText().equals("")||txtMasp.getText().equals("")||txtDVT04.getText().equals("")||txtGC04.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Không được để trống thông tin");
+        }else
+        {
+            try {
+                PreparedStatement add = con04.prepareStatement("insert into DanhSachSP values (?,?,?,?,?,?,?)");
+                add.setString(1, txtMasp.getText());
+                add.setString(2, txtTensp04.getText());
+                add.setString(3, txtSL04.getText());
+                add.setString(4, txtDVT04.getText());
+                add.setString(5, txtGC04.getText());
+                add.setString(6,txtGB04.getText());
+                add.setString(7, txtGC04.getText());
+                int row04 = add.executeUpdate();
+                showDuLieu();
+            
+        }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+            
+    }//GEN-LAST:event_btnThem04ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        showDuLieu();
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnXoa04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa04ActionPerformed
+         if (txtMasp.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sản phẩm  để xóa");
+        } else {
+            try {
+
+                String sql04 = "Delete from DanhSachSP where MaSP=" + txtMasp.getText();
+                Statement Add = con04.createStatement();
+                Add.executeUpdate(sql04);
+                JOptionPane.showMessageDialog(this, "Xóa Thành Công");
+                showDuLieu();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnXoa04ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,10 +662,12 @@ public class BanHang extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnHuyHD04;
     private javax.swing.JButton BtnHuyHD5;
+    private javax.swing.JButton btnLoc04;
+    private javax.swing.JButton btnThem04;
+    private javax.swing.JButton btnXoa04;
     private javax.swing.JButton btndx5;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton29;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton32;
