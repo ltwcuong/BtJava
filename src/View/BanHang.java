@@ -6,7 +6,6 @@ package View;
 
 
 import KetNoiSQL.JDBCConnection;
-import static KetNoiSQL.JDBCConnection.getJDBCConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -24,8 +23,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Thanh Cuong
  */
 public final class BanHang extends javax.swing.JFrame {
-    DefaultTableModel model04 = new DefaultTableModel();
-    Connection con04 = getJDBCConnection();
+    
     Statement st04 = null;
     ResultSet rs04 = null;
 
@@ -38,31 +36,29 @@ public final class BanHang extends javax.swing.JFrame {
  
      public void showDuLieu(){
         try {
-             con04 = JDBCConnection.getJDBCConnection();
-            int number ;
-            Vector row04;
+            tblSanpham.removeAll();
+            String[] arr04={"Mã sản phẩm","Tên sản phẩm","Số lượng","Đơn vị tính","Giác gốc","Giá bán","Ghi chú"};
+            DefaultTableModel model04 = new DefaultTableModel(arr04,0);
             String sql = "select * from DanhSachSP";
-            st04 =con04.createStatement();
-            rs04=st04.executeQuery(sql);
-            ResultSetMetaData metaData = rs04.getMetaData();
-            number = metaData.getColumnCount();
-            model04.setRowCount(0);
- 
+            Connection connection04 = JDBCConnection.getJDBCConnection();
+            PreparedStatement ps04 = connection04.prepareStatement(sql);
+            rs04 = ps04.executeQuery();
+            
             while(rs04.next()){
-                row04  = new Vector();
-                for (int i = 1; i <= number; i++) {
-                    row04.addElement(rs04.getString(i));
-                    
-                }
-                model04.addRow(row04);
-                tblSanpham.setModel(model04);
+                Vector vt04 = new Vector();
+                vt04.add(rs04.getString("MaSP"));
+                vt04.add(rs04.getString("TenSP"));
+                vt04.add(rs04.getString("SoLuong"));
+                vt04.add(rs04.getString("DonViTinh"));
+                vt04.add(rs04.getString("GiaGoc"));
+                vt04.add(rs04.getString("GiaBan"));
+                vt04.add(rs04.getString("GhiChu"));
+                model04.addRow(vt04);
             }
-            st04.close();
-            rs04.close();
-            con04.close();
+        tblSanpham.setModel(model04);
             
         } catch (Exception ex) {
-            
+            ex.printStackTrace();
         }
        
     }
@@ -99,7 +95,7 @@ public final class BanHang extends javax.swing.JFrame {
         txtGC04 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         btnLoc04 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanpham = new javax.swing.JTable();
@@ -123,6 +119,7 @@ public final class BanHang extends javax.swing.JFrame {
         jButton34 = new javax.swing.JButton();
         btnThem04 = new javax.swing.JButton();
         btnXoa04 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -345,6 +342,13 @@ public final class BanHang extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -393,9 +397,11 @@ public final class BanHang extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(txtGC04, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(37, 37, 37)
-                                        .addComponent(btnThem04)
                                         .addGap(39, 39, 39)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                            .addComponent(btnThem04, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(40, 40, 40)
                                         .addComponent(btnXoa04)))
                                 .addGap(32, 32, 32))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -447,7 +453,7 @@ public final class BanHang extends javax.swing.JFrame {
                                         .addComponent(jButton2)))))
                         .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(331, 331, 331)
+                        .addGap(335, 335, 335)
                         .addComponent(jLabel15)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -475,23 +481,19 @@ public final class BanHang extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(txtTensp04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtGG04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(txtSL04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGB04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThem04)
-                            .addComponent(btnXoa04))))
-                .addGap(12, 12, 12)
+                    .addComponent(txtGG04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThem04)
+                    .addComponent(btnXoa04))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6)
+                    .addComponent(txtSL04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGB04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -523,7 +525,7 @@ public final class BanHang extends javax.swing.JFrame {
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(BtnHuyHD5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -585,15 +587,16 @@ public final class BanHang extends javax.swing.JFrame {
         }else
         {
             try {
-                PreparedStatement add = con04.prepareStatement("insert into DanhSachSP values (?,?,?,?,?,?,?)");
-                add.setString(1, txtMasp.getText());
-                add.setString(2, txtTensp04.getText());
-                add.setString(3, txtSL04.getText());
-                add.setString(4, txtDVT04.getText());
-                add.setString(5, txtGC04.getText());
-                add.setString(6,txtGB04.getText());
-                add.setString(7, txtGC04.getText());
-                int row04 = add.executeUpdate();
+                Connection connection04 = JDBCConnection.getJDBCConnection();
+                PreparedStatement ps04 = connection04.prepareStatement("insert into DanhSachSP values (?,?,?,?,?,?,?)");
+                ps04.setString(1, txtMasp.getText());
+                ps04.setString(2, txtTensp04.getText());
+                ps04.setString(3, txtSL04.getText());
+                ps04.setString(4, txtDVT04.getText());
+                ps04.setString(5, txtGC04.getText());
+                ps04.setString(6,txtGB04.getText());
+                ps04.setString(7, txtGC04.getText());
+                ps04.executeUpdate();
                 showDuLieu();
             
         }catch (Exception e) {
@@ -609,20 +612,29 @@ public final class BanHang extends javax.swing.JFrame {
 
     private void btnXoa04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa04ActionPerformed
          if (txtMasp.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sản phẩm  để xóa");
+            JOptionPane.showMessageDialog(this, "Vui lòng chon  để xóa");
         } else {
             try {
-
-                String sql04 = "Delete from DanhSachSP where MaSP=" + txtMasp.getText();
-                Statement Add = con04.createStatement();
-                Add.executeUpdate(sql04);
-                JOptionPane.showMessageDialog(this, "Xóa Thành Công");
+                Connection connection04 = JDBCConnection.getJDBCConnection();
+                PreparedStatement ps04 = connection04.prepareStatement("delete from DanhSachSP where MaSP=?");
+                ps04.setString(1, txtMasp.getText());
+                ps04.executeUpdate();
                 showDuLieu();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_btnXoa04ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtMasp.setText("");
+        txtTensp04.setText("");
+        txtSL04.setText("");
+        txtDVT04.setText("");
+        txtGG04.setText("");
+        txtGB04.setText("");
+        txtGC04.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -666,6 +678,7 @@ public final class BanHang extends javax.swing.JFrame {
     private javax.swing.JButton btnThem04;
     private javax.swing.JButton btnXoa04;
     private javax.swing.JButton btndx5;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton30;
