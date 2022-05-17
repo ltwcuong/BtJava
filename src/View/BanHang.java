@@ -38,7 +38,7 @@ public final class BanHang extends javax.swing.JFrame {
     public void showDuLieu() {
         try {
             tblSanpham.removeAll();
-            String[] arr04 = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Giá gốc", "Giá bán","Ghi chú"};
+            String[] arr04 = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Giá gốc", "Giá bán", "Ghi chú"};
             DefaultTableModel model04 = new DefaultTableModel(arr04, 0);
             String sql = "select * from DanhSachSP";
             Connection connection04 = JDBCConnection.getJDBCConnection();
@@ -85,6 +85,38 @@ public final class BanHang extends javax.swing.JFrame {
             dm04.removeRow(0);
         }
     }
+
+    public void LoadItem() {
+        try {
+            Connection connection04 = JDBCConnection.getJDBCConnection();
+            String sql04 = "Select *from SanPham where MaSP=N'" + txtMasp.getText().toString() + "'";
+            PreparedStatement ps04 = connection04.prepareStatement(sql04);
+            rs04 = ps04.executeQuery();
+            if (rs04.next()) {
+                txtMasp.setText(rs04.getString("MaSP"));
+                txtTensp04.setText(rs04.getString("TenSP"));
+                txtSL04.setText(rs04.getString("SoLuong"));
+                txtDVT04.setText(rs04.getString("DonViTinh"));
+                txtGG04.setText(rs04.getString("GiaGoc"));
+                txtGB04.setText(rs04.getString("GiaBan"));
+                txtGC04.setText(rs04.getString("GhiChu"));
+            } else {
+                txtMasp.setText("");
+                txtTensp04.setText("");
+                txtSL04.setText("");
+                txtDVT04.setText("");
+                txtGG04.setText("");
+                txtGB04.setText("");
+                txtGC04.setText("");
+            }
+            showDuLieu();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -295,6 +327,15 @@ public final class BanHang extends javax.swing.JFrame {
 
         jLabel10.setText("Lọc theo");
 
+        DMSP.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                DMSPPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
         DMSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DMSPActionPerformed(evt);
@@ -642,19 +683,11 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btndx5ActionPerformed
 
     private void btnLoc04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoc04ActionPerformed
-        try {
-            Connection connection04 = JDBCConnection.getJDBCConnection();
-            PreparedStatement ps04 = connection04.prepareStatement("Select *from SanPham where MaloaiSP=N'" + DMSP.getSelectedItem().toString() + "'");
-            ps04.executeUpdate();
-            showDuLieu();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }//GEN-LAST:event_btnLoc04ActionPerformed
 
     private void btnThem04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem04ActionPerformed
-        if (txtMasp.getText().equals("") || txtTensp04.getText().equals("") || txtSL04.getText().equals("") || txtGG04.getText().equals("") || txtGB04.getText().equals("") || txtMasp.getText().equals("") || txtDVT04.getText().equals("")|| txtGC04.getText().equals("")) {
+        if (txtMasp.getText().equals("") || txtTensp04.getText().equals("") || txtSL04.getText().equals("") || txtGG04.getText().equals("") || txtGB04.getText().equals("") || txtMasp.getText().equals("") || txtDVT04.getText().equals("") || txtGC04.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Không được để trống thông tin");
         } else {
             try {
@@ -679,7 +712,7 @@ public final class BanHang extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         showDuLieu();
-
+        LoadItem();
     }//GEN-LAST:event_formComponentShown
 
     private void btnXoa04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa04ActionPerformed
@@ -719,17 +752,18 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void DMSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DMSPActionPerformed
-
+        
     }//GEN-LAST:event_DMSPActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        clearTable();
         QLHD hd04 = new QLHD();
         hd04.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void BtnHuyHD04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHuyHD04ActionPerformed
-
+            clearTable();
     }//GEN-LAST:event_BtnHuyHD04ActionPerformed
 
     private void btnThem04MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThem04MouseClicked
@@ -757,7 +791,12 @@ public final class BanHang extends javax.swing.JFrame {
                 break;
             }
         }
+        LoadItem();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void DMSPPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_DMSPPopupMenuWillBecomeInvisible
+        
+    }//GEN-LAST:event_DMSPPopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
