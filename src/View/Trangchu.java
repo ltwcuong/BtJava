@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package btljava;
+package View;
+
+
 
 /**
  *
@@ -584,8 +586,8 @@ public class Trangchu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        SignUp lg = new SignUp();
-        lg.setVisible(true);
+        Login lg04 = new Login();
+        lg04.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package btljava;
+package View;
 
 /**
  *
@@ -58,7 +58,6 @@ public class QLNCC extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jButton36 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -207,8 +206,6 @@ public class QLNCC extends javax.swing.JFrame {
         jButton36.setBackground(new java.awt.Color(255, 204, 0));
         jButton36.setText("Thống kê dữ liệu");
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/1.png"))); // NOI18N
-
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/1.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -236,11 +233,6 @@ public class QLNCC extends javax.swing.JFrame {
                     .addGap(30, 30, 30)
                     .addComponent(jLabel18)
                     .addContainerGap(159, Short.MAX_VALUE)))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(30, 30, 30)
-                    .addComponent(jLabel8)
-                    .addContainerGap(31, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,11 +265,6 @@ public class QLNCC extends javax.swing.JFrame {
                     .addGap(70, 70, 70)
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(372, Short.MAX_VALUE)))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(259, 259, 259)
-                    .addComponent(jLabel8)
-                    .addContainerGap(260, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -411,7 +398,6 @@ public class QLNCC extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel9;
