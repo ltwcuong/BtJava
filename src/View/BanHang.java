@@ -80,7 +80,7 @@ public final class BanHang extends javax.swing.JFrame {
             PreparedStatement ps04 = connection04.prepareStatement(sql);
             rs04 = ps04.executeQuery();
             while (rs04.next()) {
-                String ten04 = rs04.getString("TenLSP");
+                String ten04 = rs04.getString("MaDM");
                 DMSP.addItem(ten04);
             }
         } catch (Exception e) {
