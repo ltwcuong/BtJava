@@ -22,19 +22,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class BanHang extends javax.swing.JFrame {
 
-    Statement st04 = null;
-    ResultSet rs04 = null;
-    int i04 = 1;
-    double Thanhtien04 = 0;
-    int slhientai; //sl hien tai trong bang San Pham
-    int slsauban;   // sl con lai sau khi them san pham vao bang mua hang
-    int slmua;  // sl mua trong bang mua hang
-    int idspmua; //idsp mua
-    int slconsauxoasp; //so luong con lai sau khi xoa san pham, cap nhap o bang san pham
-    int slconlai; //so luong con lai sau khi them vao bang mua hang
-    int MyindexBMH; //vi tri con tro trong bang mua hang
-    double thanhtiensp; //thanhtien 1 sp khi chon
-    DecimalFormat formatter04 = new DecimalFormat("###,###,###");
+    Statement st204 = null;
+    ResultSet rs204 = null;
+    int i204 = 1;
+    double Thanhtien204 = 0;
+    int slhientai204; //sl hien tai trong bang San Pham
+    int slsauban204;   // sl con lai sau khi them san pham vao bang mua hang
+    int slmua204;  // sl mua trong bang mua hang
+    int idspmua204; //idsp mua
+    int slconsauxoasp204; //so luong con lai sau khi xoa san pham, cap nhap o bang san pham
+    int slconlai204; //so luong con lai sau khi them vao bang mua hang
+    double thanhtiensp204; //thanhtien 1 sp khi chon
+    DecimalFormat formatter204 = new DecimalFormat("###,###,###");
 
     public BanHang() {
         initComponents();
@@ -47,25 +46,25 @@ public final class BanHang extends javax.swing.JFrame {
     public void showDuLieu() {
         try {
             tblSanpham.removeAll();
-            String[] arr04 = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Giá gốc", "Giá bán", "Ghi chú"};
-            DefaultTableModel model04 = new DefaultTableModel(arr04, 0);
-            String sql = "select * from DanhSachSP";
-            Connection connection04 = JDBCConnection.getJDBCConnection();
-            PreparedStatement ps04 = connection04.prepareStatement(sql);
-            rs04 = ps04.executeQuery();
+            String[] arr204 = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn vị tính", "Giá gốc", "Giá bán", "Ghi chú"};
+            DefaultTableModel model204 = new DefaultTableModel(arr204, 0);
+            String sql204 = "select * from DanhSachSP";
+            Connection connection204 = JDBCConnection.getJDBCConnection();
+            PreparedStatement ps204 = connection204.prepareStatement(sql204);
+            rs204 = ps204.executeQuery();
 
-            while (rs04.next()) {
-                Vector vt04 = new Vector();
-                vt04.add(rs04.getString("MaSP"));
-                vt04.add(rs04.getString("TenSP"));
-                vt04.add(rs04.getString("SoLuong"));
-                vt04.add(rs04.getString("DonViTinh"));
-                vt04.add(rs04.getInt("GiaGoc"));
-                vt04.add(rs04.getInt("GiaBan"));
-                vt04.add(rs04.getString("GhiChu"));
-                model04.addRow(vt04);
+            while (rs204.next()) {
+                Vector vt204 = new Vector();
+                vt204.add(rs204.getString("MaSP"));
+                vt204.add(rs204.getString("TenSP"));
+                vt204.add(rs204.getString("SoLuong"));
+                vt204.add(rs204.getString("DonViTinh"));
+                vt204.add(rs204.getInt("GiaGoc"));
+                vt204.add(rs204.getInt("GiaBan"));
+                vt204.add(rs204.getString("GhiChu"));
+                model204.addRow(vt204);
             }
-            tblSanpham.setModel(model04);
+            tblSanpham.setModel(model204);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -75,13 +74,13 @@ public final class BanHang extends javax.swing.JFrame {
 
     public void showDM() {
         try {
-            String sql = "select * from DanhMucSP";
-            Connection connection04 = JDBCConnection.getJDBCConnection();
-            PreparedStatement ps04 = connection04.prepareStatement(sql);
-            rs04 = ps04.executeQuery();
-            while (rs04.next()) {
-                String ten04 = rs04.getString("MaDM");
-                DMSP.addItem(ten04);
+            String sql204 = "select * from DanhMucSP";
+            Connection connection204 = JDBCConnection.getJDBCConnection();
+            PreparedStatement ps204 = connection204.prepareStatement(sql204);
+            rs204 = ps204.executeQuery();
+            while (rs204.next()) {
+                String ten204 = rs204.getString("MaDM");
+                DMSP.addItem(ten204);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,19 +88,19 @@ public final class BanHang extends javax.swing.JFrame {
     }
 
     public void clearTable() {
-        DefaultTableModel dm04 = (DefaultTableModel) tblSanpham.getModel();
-        while (dm04.getRowCount() > 0) {
-            dm04.removeRow(0);
+        DefaultTableModel dm204 = (DefaultTableModel) tblSanpham.getModel();
+        while (dm204.getRowCount() > 0) {
+            dm204.removeRow(0);
         }
     }
     public void updatemua() {
-        slsauban = Integer.parseInt(slht.getText()) - Integer.parseInt(txtSL04.getText());
+        slsauban204 = Integer.parseInt(slht.getText()) - Integer.parseInt(txtSL04.getText());
         try {
 
-            String sql = "Update SanPham set SoLuong='" + slsauban + "'" + " where MaSP=" + txtMasp.getText();
-            Connection connection04 = JDBCConnection.getJDBCConnection();
-            Statement add04 = connection04.createStatement();
-            add04.executeUpdate(sql);
+            String sql204 = "Update SanPham set SoLuong='" + slsauban204 + "'" + " where MaSP=" + txtMasp.getText();
+            Connection connection204 = JDBCConnection.getJDBCConnection();
+            Statement add04 = connection204.createStatement();
+            add04.executeUpdate(sql204);
             showDuLieu();
             JOptionPane.showMessageDialog(this, "Cập nhật thành công số lượng sản phẩm sau khi bán!");
         } catch (Exception e) {
@@ -111,18 +110,18 @@ public final class BanHang extends javax.swing.JFrame {
 
     public void LoadItem() {
         try {
-            Connection connection04 = JDBCConnection.getJDBCConnection();
-            String sql04 = "Select *from SanPham where MaSP=N'" + txtMasp.getText().toString() + "'";
-            PreparedStatement ps04 = connection04.prepareStatement(sql04);
-            rs04 = ps04.executeQuery();
-            if (rs04.next()) {
-                txtMasp.setText(rs04.getString("MaSP"));
-                txtTensp04.setText(rs04.getString("TenSP"));
-                slht.setText(rs04.getString("SoLuong"));
-                txtDVT04.setText(rs04.getString("DonViTinh"));
-                txtGG04.setText(rs04.getString("GiaGoc"));
-                txtGB04.setText(rs04.getString("GiaBan"));
-                txtGC04.setText(rs04.getString("GhiChu"));
+            Connection connection204 = JDBCConnection.getJDBCConnection();
+            String sql204 = "Select *from SanPham where MaSP=N'" + txtMasp.getText().toString() + "'";
+            PreparedStatement ps04 = connection204.prepareStatement(sql204);
+            rs204 = ps04.executeQuery();
+            if (rs204.next()) {
+                txtMasp.setText(rs204.getString("MaSP"));
+                txtTensp04.setText(rs204.getString("TenSP"));
+                slht.setText(rs204.getString("SoLuong"));
+                txtDVT04.setText(rs204.getString("DonViTinh"));
+                txtGG04.setText(rs204.getString("GiaGoc"));
+                txtGB04.setText(rs204.getString("GiaBan"));
+                txtGC04.setText(rs204.getString("GhiChu"));
             } else {
                 txtMasp.setText("");
                 txtTensp04.setText("");
@@ -698,15 +697,15 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void tblSanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanphamMouseClicked
-        DefaultTableModel model = (DefaultTableModel) tblSanpham.getModel();
+        DefaultTableModel model204 = (DefaultTableModel) tblSanpham.getModel();
         int Myindex = tblSanpham.getSelectedRow();
-        txtMasp.setText(model.getValueAt(Myindex, 0).toString());
-        txtTensp04.setText(model.getValueAt(Myindex, 1).toString());
-        txtSL04.setText(model.getValueAt(Myindex, 2).toString());
-        txtDVT04.setText(model.getValueAt(Myindex, 3).toString());
-        txtGG04.setText(model.getValueAt(Myindex, 4).toString());
-        txtGB04.setText(model.getValueAt(Myindex, 5).toString());
-        txtGC04.setText(model.getValueAt(Myindex, 6).toString());
+        txtMasp.setText(model204.getValueAt(Myindex, 0).toString());
+        txtTensp04.setText(model204.getValueAt(Myindex, 1).toString());
+        txtSL04.setText(model204.getValueAt(Myindex, 2).toString());
+        txtDVT04.setText(model204.getValueAt(Myindex, 3).toString());
+        txtGG04.setText(model204.getValueAt(Myindex, 4).toString());
+        txtGB04.setText(model204.getValueAt(Myindex, 5).toString());
+        txtGC04.setText(model204.getValueAt(Myindex, 6).toString());
     }//GEN-LAST:event_tblSanphamMouseClicked
 
     private void BtnHuyHD5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHuyHD5ActionPerformed
@@ -714,20 +713,20 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnHuyHD5ActionPerformed
 
     private void btndx5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btndx5MouseClicked
-        Login lg04 = new Login();
-        lg04.setVisible(true);
+        Login lg204 = new Login();
+        lg204.setVisible(true);
         dispose();
     }//GEN-LAST:event_btndx5MouseClicked
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
-        QLTaiKhoan tk04 = new QLTaiKhoan();
-        tk04.setVisible(true);
+        QLTaiKhoan tk204 = new QLTaiKhoan();
+        tk204.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void btndx5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndx5ActionPerformed
-        Trangchu lg04 = new Trangchu();
-        lg04.setVisible(true);
+        Trangchu lg204 = new Trangchu();
+        lg204.setVisible(true);
         dispose();
     }//GEN-LAST:event_btndx5ActionPerformed
 
@@ -736,38 +735,38 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoc04ActionPerformed
 
     private void btnThem04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem04ActionPerformed
-        int sl;
-        sl = Integer.parseInt(txtSL04.getText());
-        double giasp, thanhtien;
-        giasp = Double.parseDouble(txtGB04.getText());
-        thanhtien = sl * giasp;
-        slhientai = Integer.parseInt(slht.getText());
+        int sl204;
+        sl204 = Integer.parseInt(txtSL04.getText());
+        double giasp204, thanhtien204;
+        giasp204 = Double.parseDouble(txtGB04.getText());
+        thanhtien204 = sl204 * giasp204;
+        slhientai204 = Integer.parseInt(slht.getText());
         if (txtMasp.getText().equals("") || txtTensp04.getText().equals("") || txtSL04.getText().equals("") || txtGG04.getText().equals("") || txtGB04.getText().equals("") || txtDVT04.getText().equals("") || txtGC04.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Không được để trống! Mời bạn chọn sản phẩm lại!");
-        } else if (slhientai < sl) {
+        } else if (slhientai204 < sl204) {
             JOptionPane.showMessageDialog(this, "Không đủ sản phẩm để mua");
         } else {
    
             try {
-                Connection connection04 = JDBCConnection.getJDBCConnection();
-                PreparedStatement ps04 = connection04.prepareStatement("insert into DanhSachSP values (?,?,?,?,?,?,?)");
-                ps04.setString(1, txtMasp.getText());
-                ps04.setString(2, txtTensp04.getText());
-                ps04.setString(3, txtSL04.getText());
-                ps04.setString(4, txtDVT04.getText());
-                ps04.setString(5, txtGG04.getText());
-                ps04.setString(6, txtGB04.getText());
-                ps04.setString(7, txtGC04.getText());
-                ps04.executeUpdate();
+                Connection connection204 = JDBCConnection.getJDBCConnection();
+                PreparedStatement ps204 = connection204.prepareStatement("insert into DanhSachSP values (?,?,?,?,?,?,?)");
+                ps204.setString(1, txtMasp.getText());
+                ps204.setString(2, txtTensp04.getText());
+                ps204.setString(3, txtSL04.getText());
+                ps204.setString(4, txtDVT04.getText());
+                ps204.setString(5, txtGG04.getText());
+                ps204.setString(6, txtGB04.getText());
+                ps204.setString(7, txtGC04.getText());
+                ps204.executeUpdate();
                 showDuLieu();
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Thanhtien04 = Thanhtien04 + thanhtien;
-            txtbs04.setText(String.valueOf(formatter04.format(Thanhtien04) + " VNĐ"));
+            Thanhtien204 = Thanhtien204 + thanhtien204;
+            txtbs04.setText(String.valueOf(formatter204.format(Thanhtien204) + " VNĐ"));
             
-            tt.setText(String.valueOf(formatter04.format(Thanhtien04) + " VNĐ"));
+            tt.setText(String.valueOf(formatter204.format(Thanhtien204) + " VNĐ"));
             updatemua();
         }
         
@@ -868,22 +867,22 @@ public final class BanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_txttthu04MouseEntered
 
     private void txttthu04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttthu04ActionPerformed
-       double ttra04, tthu04,ck04;
-        int sl;
-        sl = Integer.parseInt(txtSL04.getText());
-        double giasp, thanhtien;
-        giasp = Double.parseDouble(txtGB04.getText());
-        thanhtien = sl * giasp;
-        tthu04 = Double.parseDouble(txttthu04.getText());
-        ck04 = Double.parseDouble(txtCK04.getText());
+       double ttra204, tthu204,ck204;
+        int sl204;
+        sl204 = Integer.parseInt(txtSL04.getText());
+        double giasp204, thanhtien204;
+        giasp204 = Double.parseDouble(txtGB04.getText());
+        thanhtien204 = sl204 * giasp204;
+        tthu204 = Double.parseDouble(txttthu04.getText());
+        ck204 = Double.parseDouble(txtCK04.getText());
         
-        if(ck04==0){
-            ttra04 = tthu04 - Thanhtien04;
-            txttra04.setText(String.valueOf(formatter04.format(ttra04) + " VNĐ"));
+        if(ck204==0){
+            ttra204 = tthu204 - Thanhtien204;
+            txttra04.setText(String.valueOf(formatter204.format(ttra204) + " VNĐ"));
         }
         else{
-            ttra04 =tthu04 - Thanhtien04 * ck04;
-            txttra04.setText(String.valueOf(formatter04.format(ttra04) + " VNĐ"));
+            ttra204 =tthu204 - Thanhtien204 * ck204;
+            txttra04.setText(String.valueOf(formatter204.format(ttra204) + " VNĐ"));
         }
                 
         
