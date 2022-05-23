@@ -140,6 +140,11 @@ public class QLKH extends javax.swing.JFrame {
         jLabel5.setText("Số điện thoại:");
 
         jButton7.setText("Tìm kiếm");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Gmail:");
 
@@ -573,6 +578,10 @@ public class QLKH extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         showDL();
     }//GEN-LAST:event_formComponentShown
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+       LoadItem();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
