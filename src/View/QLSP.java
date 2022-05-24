@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QLSP extends javax.swing.JFrame {
 
-    Statement st19 = null;
-    ResultSet rs19 = null;
+    Statement st114 = null;
+    ResultSet rs114 = null;
 
     public QLSP() {
         initComponents();
@@ -28,31 +29,63 @@ public class QLSP extends javax.swing.JFrame {
     public void showDuLieu() {
         try {
             TblSP.removeAll();
-            String[] arr19 = {"Mã sản phẩm", "Tên sản phẩm","Mã loại sản phẩm","Mã nhà cung cấp","Số lượng", "Giá tiền" ,  "Ghi chú"};
-            DefaultTableModel model19 = new DefaultTableModel(arr19, 0);
-            String sql = "select * from DanhSachSP";
-            Connection connection19 = JDBCConnection.getJDBCConnection();
-            PreparedStatement ps19 = connection19.prepareStatement(sql);
-            rs19 = ps19.executeQuery();
+            String[] arr114 = {"Mã sản phẩm", "Tên sản phẩm","Mã loại sản phẩm","Mã nhà cung cấp","Số lượng","Đơn vị tính", "Giá gốc" ,"Giá bán",  "Ghi chú"};
+            DefaultTableModel model14 = new DefaultTableModel(arr114, 0);
+            String sql = "select * from SanPham";
+            Connection connection114 = JDBCConnection.getJDBCConnection();
+            PreparedStatement ps114 = connection114.prepareStatement(sql);
+            rs114 = ps114.executeQuery();
 
-            while (rs19.next()) {
-                Vector vt04 = new Vector();
-                vt04.add(rs19.getString("MaSP"));
-                vt04.add(rs19.getString("TenSP"));
-                vt04.add(rs19.getString("MaloaiSP"));
-                vt04.add(rs19.getString("MaNhaCC"));
-                vt04.add(rs19.getString("Soluong"));
-                vt04.add(rs19.getString("Giatien"));
-                vt04.add(rs19.getString("Ghichu"));
-                model19.addRow(vt04);
+            while (rs114.next()) {
+                Vector vt = new Vector();
+                vt.add(rs114.getString("MaSP"));
+                vt.add(rs114.getString("TenSP"));
+                vt.add(rs114.getString("MaLSP"));
+                vt.add(rs114.getString("MaNhaCC"));
+                vt.add(rs114.getString("Soluong"));
+                vt.add(rs114.getString("DonViTinh"));
+                vt.add(rs114.getString("GiaGoc"));
+                vt.add(rs114.getString("GiaBan"));
+                vt.add(rs114.getString("GhiChu"));
+                model14.addRow(vt);
             }
-            TblSP.setModel(model19);
+            TblSP.setModel(model14);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
+      public void LoadItem() {
+      try {
+            TblSP.removeAll();
+            String[] arr114 = {"Mã sản phẩm", "Tên sản phẩm","Mã loại sản phẩm","Mã nhà cung cấp","Số lượng","Đơn vị tính", "Giá gốc" ,"Giá bán",  "Ghi chú"};
+            DefaultTableModel model114 = new DefaultTableModel(arr114, 0);
+            String sql = "Select *from SanPham where MaSP=N'" + tkssp.getText().toString() + "'";
+            Connection con = JDBCConnection.getJDBCConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            rs114 = ps.executeQuery();
+
+            while (rs114.next()) {
+                Vector vt= new Vector();
+                vt.add(rs114.getString("MaSP"));
+                vt.add(rs114.getString("TenSP"));
+                vt.add(rs114.getString("MaLSP"));
+                vt.add(rs114.getString("MaNhaCC"));
+                vt.add(rs114.getString("Soluong"));
+                vt.add(rs114.getString("DonViTinh"));
+                vt.add(rs114.getString("GiaGoc"));
+                vt.add(rs114.getString("GiaBan"));
+                vt.add(rs114.getString("GhiChu"));
+           
+                model114.addRow(vt);
+            }
+            TblSP.setModel(model114);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,18 +102,20 @@ public class QLSP extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        masp = new javax.swing.JTextField();
+        tensp = new javax.swing.JTextField();
+        sl = new javax.swing.JTextField();
+        malsp = new javax.swing.JTextField();
+        tkssp = new javax.swing.JTextField();
+        tksp = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        gg = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        gc = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        mancc = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        gb = new javax.swing.JTextField();
         btndx04 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -100,8 +135,14 @@ public class QLSP extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jButton36 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        xoa1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Quản lý sản phẩm");
@@ -114,17 +155,24 @@ public class QLSP extends javax.swing.JFrame {
 
         jLabel3.setText("Tên sản phẩm:");
 
-        jLabel5.setText("Số lượng");
+        jLabel5.setText("Số lượng:");
 
         jLabel6.setText("Mã loại sản phẩm");
 
-        jButton7.setText("Tìm kiếm");
+        tksp.setText("Tìm kiếm");
+        tksp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tkspActionPerformed(evt);
+            }
+        });
 
-        jLabel7.setText("Giá tiền:");
+        jLabel7.setText("Giá bán :");
 
         jLabel11.setText("Ghi chú:");
 
         jLabel9.setText("Mã nhà cung cấp:");
+
+        jLabel10.setText("Giá gốc :");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -142,30 +190,31 @@ public class QLSP extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField6)))
+                                    .addComponent(tensp, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                    .addComponent(masp)
+                                    .addComponent(malsp)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tksp, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField7)))
+                                .addComponent(tkssp)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5))
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                            .addComponent(jTextField8))
-                        .addGap(18, 18, 18))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField9)
-                        .addGap(361, 361, 361))))
+                        .addComponent(mancc)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sl)
+                    .addComponent(gg, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                    .addComponent(gc)
+                    .addComponent(gb, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,29 +222,31 @@ public class QLSP extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(masp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tensp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(gg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(malsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7)
+                    .addComponent(gb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mancc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(gc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tksp, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tkssp, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8))
         );
 
@@ -221,6 +272,11 @@ public class QLSP extends javax.swing.JFrame {
         jButton6.setText("Cập nhật");
 
         xoa.setText("Xoá");
+        xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoaActionPerformed(evt);
+            }
+        });
 
         TblSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -233,6 +289,11 @@ public class QLSP extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TblSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblSPMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblSP);
 
         jPanel9.setBackground(new java.awt.Color(255, 204, 153));
@@ -341,6 +402,13 @@ public class QLSP extends javax.swing.JFrame {
                     .addContainerGap(372, Short.MAX_VALUE)))
         );
 
+        xoa1.setText("Làm mới");
+        xoa1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xoa1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -349,24 +417,26 @@ public class QLSP extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(158, 158, 158)
                         .addComponent(btndx04, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(53, 53, 53)
                                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(66, 66, 66)
+                                    .addGap(54, 54, 54)
                                     .addComponent(jButton6)
-                                    .addGap(49, 49, 49)
-                                    .addComponent(xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(56, 56, 56)
+                                    .addComponent(xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(48, 48, 48)
+                                    .addComponent(xoa1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,12 +448,12 @@ public class QLSP extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(xoa1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -394,8 +464,8 @@ public class QLSP extends javax.swing.JFrame {
 
     private void btndx04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndx04ActionPerformed
         // TODO add your handling code here:
-        Trangchu tc = new Trangchu();
-        tc.setVisible(true);
+        Trangchu tc114 = new Trangchu();
+        tc114.setVisible(true);
         dispose();
     }//GEN-LAST:event_btndx04ActionPerformed
 
@@ -416,8 +486,78 @@ public class QLSP extends javax.swing.JFrame {
     }//GEN-LAST:event_btndx04MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Connection conn = JDBCConnection.getJDBCConnection();
+           if (masp.getText().equals("") ) {
+            JOptionPane.showMessageDialog(this, "Không được để trống!");
+        } else {
+
+            try {
+                Connection con = JDBCConnection.getJDBCConnection();
+                PreparedStatement ps114 = con.prepareStatement("insert into SanPham values (?,?,?,?,?,?,?,?)");
+                ps114.setString(1, masp.getText());
+                ps114.setString(2, tensp.getText());
+                ps114.setString(3, malsp.getText());
+                ps114.setString(4, mancc.getText());
+                ps114.setString(5, sl.getText());
+                ps114.setString(6, gg.getText());
+                ps114.setString(7, gb.getText());
+                ps114.setString(8, gc.getText());
+                ps114.executeUpdate();
+                showDuLieu();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaActionPerformed
+         if (masp.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chon  để xóa");
+        } else {
+            try {
+                Connection con = JDBCConnection.getJDBCConnection();
+                PreparedStatement ps = con.prepareStatement("delete from SanPham where MaSP=?");
+                ps.setString(1, masp.getText());
+                ps.executeUpdate();
+                showDuLieu();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_xoaActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        showDuLieu();
+    }//GEN-LAST:event_formComponentShown
+
+    private void TblSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblSPMouseClicked
+        DefaultTableModel model = (DefaultTableModel) TblSP.getModel();
+        int Myindex = TblSP.getSelectedRow();
+        masp.setText(model.getValueAt(Myindex, 0).toString());
+        tensp.setText(model.getValueAt(Myindex, 1).toString());
+        malsp.setText(model.getValueAt(Myindex, 2).toString());
+        mancc.setText(model.getValueAt(Myindex, 3).toString());
+        sl.setText(model.getValueAt(Myindex, 4).toString());
+        gg.setText(model.getValueAt(Myindex, 5).toString());
+        gb.setText(model.getValueAt(Myindex, 6).toString());
+        gc.setText(model.getValueAt(Myindex, 7).toString());
+    }//GEN-LAST:event_TblSPMouseClicked
+
+    private void tkspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tkspActionPerformed
+        LoadItem();
+    }//GEN-LAST:event_tkspActionPerformed
+
+    private void xoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoa1ActionPerformed
+        masp.setText("");
+        tensp.setText("");
+        malsp.setText("");
+        mancc.setText("");
+        sl.setText("");
+        gg.setText("");
+        gb.setText("");
+        gc.setText("");  
+        showDuLieu();
+    }//GEN-LAST:event_xoa1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -457,6 +597,9 @@ public class QLSP extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TblSP;
     private javax.swing.JButton btndx04;
+    private javax.swing.JTextField gb;
+    private javax.swing.JTextField gc;
+    private javax.swing.JTextField gg;
     private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
@@ -467,8 +610,8 @@ public class QLSP extends javax.swing.JFrame {
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -483,14 +626,14 @@ public class QLSP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField malsp;
+    private javax.swing.JTextField mancc;
+    private javax.swing.JTextField masp;
+    private javax.swing.JTextField sl;
+    private javax.swing.JTextField tensp;
+    private javax.swing.JButton tksp;
+    private javax.swing.JTextField tkssp;
     private javax.swing.JButton xoa;
+    private javax.swing.JButton xoa1;
     // End of variables declaration//GEN-END:variables
 }
