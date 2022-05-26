@@ -212,25 +212,25 @@ public class SignUp extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Login sp106 = new Login();
-        sp106.setVisible(true);
+        Login sp = new Login();
+        sp.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int dk106 = JOptionPane.showConfirmDialog(this," Ban co muon dang ki khong","confirm",JOptionPane.YES_NO_OPTION);
-        if (dk106!=JOptionPane.YES_OPTION) {
+        int dk = JOptionPane.showConfirmDialog(this," Ban co muon dang ki khong","confirm",JOptionPane.YES_NO_OPTION);
+        if (dk!=JOptionPane.YES_OPTION) {
             return ;
             
         }
         try {        
-            Connection con106 = JDBCConnection.getJDBCConnection();
-            String sql106 = "insert into Acount values (?,?,?)";
-            PreparedStatement ps106 = con106.prepareStatement(sql106);
-            ps106.setString(1,txtUser.getText());
-            ps106.setString(2,txtpass.getText());
-            ps106.setString(3,txtgmail.getText());
-            int n = ps106.executeUpdate();
+            Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "insert into Acount values (?,?,?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,txtUser.getText());
+            ps.setString(2,txtpass.getText());
+            ps.setString(3,txtgmail.getText());
+            int n = ps.executeUpdate();
             
             if(txtUser.getText().equals("")||txtpass.getText().equals("")||txtgmail.getText().equals("")){
                 JOptionPane.showMessageDialog(this,"Không để trống thông tin");

@@ -8,27 +8,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
+/**
+ *
+ * @author Thanh Cuong
+ */
 public class JDBCConnection {
-
-    public static Connection getJDBCConnection() {
+     public static Connection getJDBCConnection() {
         
-        final String url = "jdbc:sqlserver://localhost:1433;databasename=Sieuthimini;";
-        final String user = "sa";
-        final String password = "1";
+        final String url04 = "jdbc:jtds:sqlserver://DESKTOP-75QU9HE:1433/Sieuthimini";
+        final String user04 = "sa";
+        final String password04 = "1";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-            return DriverManager.getConnection(url, user, password);
+            return DriverManager.getConnection(url04, user04, password04);
         } catch (ClassNotFoundException | SQLException e) {
         }
         return null;
     }
-      public static void main(String[] args) {
-        Connection connection = getJDBCConnection();
-        if (connection != null) {
-            System.out.println("thanh cong");
-        } else {
-            System.out.println("that bai");
-        }
-    }
+    
 }

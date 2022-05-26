@@ -323,8 +323,8 @@ public class QLTaiKhoan extends javax.swing.JFrame {
 
     private void btndx04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndx04ActionPerformed
         // TODO add your handling code here:
-        Trangchu tc119 = new Trangchu();
-        tc119.setVisible(true);
+        Trangchu tc = new Trangchu();
+        tc.setVisible(true);
         dispose();
     }//GEN-LAST:event_btndx04ActionPerformed
 
