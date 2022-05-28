@@ -4,6 +4,17 @@
  */
 package View;
 
+import static KetNoiSQL.JDBCConnection.getJDBCConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Thanh Cuong
@@ -15,8 +26,54 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
      */
     public ThongKeDoanhThu() {
         initComponents();
+        ngayhientai.setVisible(false);
+        namtk.setVisible(false);
+        thangtk.setVisible(false);
+    }
+     Connection con = getJDBCConnection();
+    Statement st = null;
+    ResultSet rs = null;
+    
+    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    java.util.Date date = new java.util.Date();
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
+      public void TKTheoNgayHienTai() {
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("Set dateformat dmy Select *from ChitietHD as c , HoaDon as d where c.MaHD=d.maHD and d.NgayBan='" + dateFormat.format(date) + "'");
+            BangThongKe.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void TKTheoNgay() {
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("Set dateformat dmy Select *from ChitietHD as c , HoaDon as d where c.MaHD=d.maHD and d.NgayBan='" + ngayhientai.getText() + "'");
+            BangThongKe.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void TKTheoThang() {
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("Set dateformat dmy Select * from ChitietHD as c , HoaDon as d where c.MaHD=d.MaHD and year(d.NgayBan)='" + namtk.getText() + "'" + "and month(d.NgayTaoHoaDon)='" + thangtk.getText() + "'");
+            BangThongKe.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    public void TKTheoNam() {
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("Set dateformat dmy Select * from ChiTietHD as c , HoaDon as d where c.maHD=d.maHD and year(d.NgayBan)='" + namtk.getText() + "'");
+            BangThongKe.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,17 +86,10 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
         jButton27 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbtk = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         btndx5 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jButton29 = new javax.swing.JButton();
@@ -55,6 +105,12 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jButton37 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        BangThongKe = new javax.swing.JTable();
+        ngayhientai = new javax.swing.JLabel();
+        thangtk = new javax.swing.JLabel();
+        namtk = new javax.swing.JLabel();
+        thongke = new javax.swing.JLabel();
 
         jButton27.setBackground(new java.awt.Color(255, 204, 0));
         jButton27.setText("Quản lý danh mục ");
@@ -67,9 +123,9 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
 
         jLabel2.setText("Vui lòng chọn danh mục cần thống kê ( dữ liệu liên quan sẽ đổ ra ở dưới)");
 
-        jComboBox1.setBackground(new java.awt.Color(255, 204, 204));
-        jComboBox1.setForeground(new java.awt.Color(255, 153, 0));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thống kê ngày hiện tại", "Thống kê theo ngày", "Thống kê theo tháng/năm", "Thống kê theo năm", " " }));
+        cbtk.setBackground(new java.awt.Color(255, 204, 204));
+        cbtk.setForeground(new java.awt.Color(255, 153, 0));
+        cbtk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thống kê ngày hiện tại", "Thống kê theo ngày", "Thống kê theo tháng/năm", "Thống kê theo năm", " " }));
 
         jButton1.setBackground(new java.awt.Color(255, 153, 51));
         jButton1.setText("Thống kê");
@@ -78,58 +134,23 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 153, 51));
         jButton2.setText("Làm mới");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 102, 0));
         jLabel3.setText("DANH SÁCH DỮ LIỆU THỐNG KÊ");
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
-
-        jTabbedPane1.addTab("Những sản phẩm bán chạy nhất", jScrollPane3);
-
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable4);
-
-        jTabbedPane1.addTab("Những sản phẩm được bán chạy", jScrollPane4);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        jTabbedPane1.addTab("Doanh thu", jScrollPane2);
 
         btndx5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/signup.png"))); // NOI18N
         btndx5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,9 +201,19 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
 
         jButton33.setBackground(new java.awt.Color(255, 204, 0));
         jButton33.setText("Quản lý sản phẩm");
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
 
         jButton35.setBackground(new java.awt.Color(255, 204, 0));
         jButton35.setText("Quản lý danh mục ");
+        jButton35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton35ActionPerformed(evt);
+            }
+        });
 
         jButton36.setBackground(new java.awt.Color(255, 204, 0));
         jButton36.setText("Thống kê dữ liệu");
@@ -196,6 +227,11 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
 
         jButton37.setBackground(new java.awt.Color(255, 204, 0));
         jButton37.setText("Quản lý hóa đơn");
+        jButton37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton37ActionPerformed(evt);
+            }
+        });
 
         jButton34.setBackground(new java.awt.Color(255, 204, 0));
         jButton34.setText("Quản lý bán hàng");
@@ -262,13 +298,36 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
                 .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addGap(70, 70, 70)
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(372, Short.MAX_VALUE)))
         );
+
+        BangThongKe.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(BangThongKe);
+
+        ngayhientai.setText("jLabel4");
+
+        thangtk.setText("jLabel5");
+
+        namtk.setText("jLabel6");
+
+        thongke.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        thongke.setForeground(new java.awt.Color(255, 51, 0));
+        thongke.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,39 +339,52 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(218, 218, 218)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(171, 171, 171)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(190, 190, 190))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(205, 205, 205)
                                 .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(290, 290, 290)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(190, 190, 190))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(196, 196, 196))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(158, 158, 158)))))
+                                .addGap(0, 164, Short.MAX_VALUE)))
                         .addComponent(btndx5, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTabbedPane1)
+                        .addGap(311, 311, 311)
+                        .addComponent(cbtk, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(ngayhientai)
+                        .addGap(204, 204, 204)
+                        .addComponent(thangtk)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(namtk)
+                        .addGap(194, 194, 194))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(thongke, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(207, 207, 207)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(219, 219, 219))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(259, 259, 259))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -323,18 +395,23 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
                                 .addComponent(btndx5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(13, 13, 13)
+                        .addComponent(cbtk, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ngayhientai)
+                            .addComponent(thangtk)
+                            .addComponent(namtk))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(thongke, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -380,8 +457,93 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        // TODO add your handling code here:
+        BanHang bh204 = new BanHang();
+        bh204.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton34ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            if (cbtk.getSelectedItem().toString().equals("Thống kê ngày hiện tại")) {
+            String sql = "set dateformat dmy select SUM(ThanhTien) from ChitietHD as c , HoaDon as d where c.MaHD=d.MaHD and d.NgayBan='" + dateFormat.format(date) + "'";
+            try {
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    thongke.setText("Doanh thu ngày hôm nay thu được là:       " + String.valueOf(formatter.format(rs.getDouble(1)) + " VNĐ"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TKTheoNgayHienTai();
+
+        } else if (cbtk.getSelectedItem().toString().equals("Thống kê theo ngày")) {
+            String ngay = JOptionPane.showInputDialog(this, "Nhập ngày bạn cần thống kê(dd/MM/yyy)", "Nhập ngày", JOptionPane.DEFAULT_OPTION);
+            ngayhientai.setText(ngay);
+            String sql = "set dateformat dmy select SUM(ThanhTien) from ChitietHD as c , HoaDon as d where c.MaHD=d.MaHD and d.NgayBan='" + ngayhientai.getText() + "'";
+            try {
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    thongke.setText("Doanh thu ngày " + ngayhientai.getText() + " thu được là:       " + String.valueOf(formatter.format(rs.getDouble(1)) + " VNĐ"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TKTheoNgayHienTai();
+        } else if (cbtk.getSelectedItem().toString().equals("Thống kê theo tháng/năm")) {
+            String thang = JOptionPane.showInputDialog(this, "Nhập tháng cần thống kê", "Nhập tháng", JOptionPane.DEFAULT_OPTION);
+            thangtk.setText(thang);
+            String nam = JOptionPane.showInputDialog(this, "Nhập năm tương ứng", "Nhập năm", JOptionPane.DEFAULT_OPTION);
+            namtk.setText(nam);
+            String sql = "set dateformat dmy select SUM(ThanhTien204) from ChitietHD as c , HoaDon as d where c.MaHD=d.MaHD and year(d.NgayBan)='" + nam + "'" + "and month(d.NgayTaoHoaDon)='" + thang + "'";
+            try {
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    thongke.setText("Doanh thu tháng " + thang + " năm " + nam + " thu được là:     " + String.valueOf(formatter.format(rs.getDouble(1)) + "   VNĐ"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TKTheoThang();
+        } else {
+            String nam = JOptionPane.showInputDialog(this, "Nhập năm tương ứng", "Nhập năm", JOptionPane.DEFAULT_OPTION);
+            namtk.setText(nam);
+            String sql = "set dateformat dmy select SUM(ThanhTien) from ChitietHD as c , HoaDon as d where c.MaHD=d.MaHD and year(d.NgayBan)='" + nam + "'";
+            try {
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    thongke.setText("Doanh thu tháng năm " + nam + " thu được là:     " + String.valueOf(formatter.format(rs.getDouble(1)) + "   VNĐ"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TKTheoNam();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+       QLSP sp204 = new QLSP();
+       sp204.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
+       QLDM dm204 = new QLDM();
+       dm204.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButton35ActionPerformed
+
+    private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
+        QLHD hd204 = new QLHD();
+       hd204.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButton37ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,7 +581,9 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable BangThongKe;
     private javax.swing.JButton btndx5;
+    private javax.swing.JComboBox<String> cbtk;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton27;
@@ -432,7 +596,6 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
     private javax.swing.JButton jButton35;
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -441,12 +604,10 @@ public class ThongKeDoanhThu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel namtk;
+    private javax.swing.JLabel ngayhientai;
+    private javax.swing.JLabel thangtk;
+    private javax.swing.JLabel thongke;
     // End of variables declaration//GEN-END:variables
 }

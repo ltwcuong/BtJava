@@ -397,12 +397,14 @@
             <TitledBorder/>
           </Border>
         </Property>
+        <Property name="alignmentX" type="float" value="0.0"/>
+        <Property name="alignmentY" type="float" value="0.0"/>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="btnTrangchu04" alignment="0" max="32767" attributes="0"/>
+              <Component id="btnTrangchu04" alignment="0" pref="239" max="32767" attributes="0"/>
               <Component id="btbanhang" alignment="0" max="32767" attributes="0"/>
               <Component id="btnhd04" alignment="0" max="32767" attributes="0"/>
               <Component id="qlnhanvien" alignment="0" max="32767" attributes="0"/>
@@ -417,7 +419,7 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="35" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
           </Group>
@@ -626,7 +628,7 @@
                           <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="54" max="32767" attributes="0"/>
+                  <EmptySpace pref="39" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
